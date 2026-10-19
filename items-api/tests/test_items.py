@@ -93,3 +93,8 @@ def test_test_db_path_environment_variable_is_used(monkeypatch, tmp_path):
     app = create_app()
     assert app.config["TEST_DB_PATH"] == str(db_path)
     assert app.test_client().get("/api/items").status_code == 200
+
+
+def test_non_object_bodies_are_rejected(client):
+    assert client.post("/api/items", json=[]).status_code == 400
+    assert client.patch("/api/items/1/status", json=[]).status_code == 400

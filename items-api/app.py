@@ -112,7 +112,9 @@ def create_app(test_config=None):
 
     @app.post("/api/items")
     def create_item():
-        data = request.get_json(silent=True) or {}
+        data = request.get_json(silent=True)
+        if not isinstance(data, dict):
+            return jsonify(error="Request body must be a JSON object"), 400
         fields = ("title", "category", "item_type", "location", "description", "reporter_name", "reporter_contact")
         missing = [field for field in fields if not isinstance(data.get(field), str) or not data[field].strip()]
         if missing:
@@ -141,7 +143,9 @@ def create_app(test_config=None):
 
     @app.patch("/api/items/<int:item_id>/status")
     def update_item_status(item_id):
-        data = request.get_json(silent=True) or {}
+        data = request.get_json(silent=True)
+        if not isinstance(data, dict):
+            return jsonify(error="Request body must be a JSON object"), 400
         status = data.get("status")
         if status not in ("open", "claimed", "returned"):
             return jsonify(error="status must be 'open', 'claimed', or 'returned'"), 400

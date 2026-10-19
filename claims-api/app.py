@@ -108,13 +108,20 @@ def create_app(test_config=None):
 
     @app.post("/api/claims")
     def create_claim():
-        data = request.get_json(silent=True) or {}
-        fields = ("item_id", "claimant_name", "student_id", "proof_description")
-        if any(field not in data or data[field] is None or (isinstance(data[field], str) and not data[field].strip()) for field in fields):
-            return jsonify(error="item_id, claimant_name, student_id, and proof_description are required"), 400
+        data = request.get_json(silent=True)
+        if not isinstance(data, dict):
+            return jsonify(error="Request body must be a JSON object"), 400
+        text_fields = ("claimant_name", "student_id", "proof_description")
+        if any(not isinstance(data.get(field), str) or not data[field].strip() for field in text_fields):
+            return jsonify(error="claimant_name, student_id, and proof_description must be non-empty strings"), 400
         try:
-            item_id = int(data["item_id"])
-            if isinstance(data["item_id"], bool) or item_id <= 0:
+            raw_item_id = data.get("item_id")
+            if isinstance(raw_item_id, bool) or not isinstance(raw_item_id, (int, str)):
+                raise ValueError
+            if isinstance(raw_item_id, str) and not raw_item_id.isdecimal():
+                raise ValueError
+            item_id = int(raw_item_id)
+            if item_id <= 0:
                 raise ValueError
         except (TypeError, ValueError):
             return jsonify(error="item_id must be a positive integer"), 400
@@ -137,7 +144,9 @@ def create_app(test_config=None):
 
     @app.patch("/api/claims/<int:claim_id>")
     def update_claim(claim_id):
-        data = request.get_json(silent=True) or {}
+        data = request.get_json(silent=True)
+        if not isinstance(data, dict):
+            return jsonify(error="Request body must be a JSON object"), 400
         status = data.get("status")
         if status not in ("approved", "rejected"):
             return jsonify(error="status must be 'approved' or 'rejected'"), 400

@@ -112,3 +112,10 @@ def test_test_db_path_environment_variable_is_used(monkeypatch, tmp_path):
     app = create_app()
     assert app.config["TEST_DB_PATH"] == str(db_path)
     assert app.test_client().get("/api/claims").status_code == 200
+
+
+def test_invalid_claim_bodies_are_rejected(client):
+    assert client.post("/api/claims", json=[]).status_code == 400
+    assert client.post("/api/claims", json={"item_id": 1, "claimant_name": 12, "student_id": "42", "proof_description": "proof"}).status_code == 400
+    assert client.post("/api/claims", json={"item_id": 1.5, "claimant_name": "Dom", "student_id": "42", "proof_description": "proof"}).status_code == 400
+    assert client.patch("/api/claims/1", json=[]).status_code == 400
