@@ -1,0 +1,22 @@
+# Environment files (CRITICAL: Never commit real passwords or .env to Git!)
+.env
+.env.*
+!.env.example
+
+# Python bytecode & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp

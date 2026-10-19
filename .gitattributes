@@ -1,0 +1,7 @@
+# Force LF line endings across all OSes so Linux Docker containers & Jenkins
+# never fail on Windows CRLF (\r\n) line endings.
+* text=auto eol=lf
+*.png binary
+*.pdf binary
+*.jpg binary
+*.ico binary

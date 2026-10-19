@@ -1,0 +1,139 @@
+<svg viewBox="0 0 760 465" width="760" height="465" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+  <rect x="0" y="0" width="760" height="465" fill="#ffffff"/>
+  <!-- SECTION 1: APPLICATION STACK -->
+  <rect x="6" y="6" width="748" height="296" fill="#ffffff" stroke="#000000" stroke-width="1.8"/>
+  <rect x="6" y="6" width="748" height="22" fill="#111111"/>
+  <text x="16" y="21" font-size="10" font-weight="bold" fill="#ffffff">A. APPLICATION STACK (docker-compose.yml • Project: findit)</text>
+
+  <!-- Client Browser -->
+  <rect x="16" y="114" width="108" height="76" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+  <text x="70" y="138" font-size="10" font-weight="bold" text-anchor="middle">CLIENT BROWSER</text>
+  <text x="70" y="154" font-size="8.2" text-anchor="middle">Student / Staff User</text>
+  <text x="70" y="168" font-size="8.2" font-weight="bold" text-anchor="middle">http://localhost:8080</text>
+
+  <!-- Arrow Client -> Proxy -->
+  <line x1="124" y1="152" x2="180" y2="152" stroke="#000000" stroke-width="2"/>
+  <polygon points="180,152 172,147 172,157" fill="#000000"/>
+  <text x="148" y="144" font-size="7.8" font-weight="bold" text-anchor="middle">:8080</text>
+
+  <!-- frontend-net -->
+  <rect x="170" y="38" width="388" height="252" fill="#fafafa" stroke="#000000" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="180" y="53" font-size="9.2" font-weight="bold">Docker Network: frontend-net (bridge)</text>
+
+  <!-- backend-net -->
+  <rect x="374" y="112" width="366" height="168" fill="#f0f0f0" stroke="#000000" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="557" y="127" font-size="9.2" font-weight="bold" text-anchor="middle">Docker Network: backend-net (isolated internal bridge)</text>
+
+  <!-- Proxy Container -->
+  <rect x="180" y="106" width="128" height="92" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+  <rect x="180" y="106" width="128" height="19" fill="#000000"/>
+  <text x="244" y="119" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">proxy (Reverse Proxy)</text>
+  <text x="244" y="137" font-size="9" font-weight="bold" text-anchor="middle">nginx:1.27-alpine</text>
+  <text x="244" y="151" font-size="8.2" text-anchor="middle">Host :8080 → Container :80</text>
+  <text x="244" y="164" font-size="8.2" text-anchor="middle">Baked-in nginx.conf</text>
+  <text x="244" y="177" font-size="8" font-weight="bold" text-anchor="middle">Only Published Host Port</text>
+
+  <!-- Frontend Container -->
+  <rect x="386" y="60" width="158" height="46" fill="#ffffff" stroke="#000000" stroke-width="1.8"/>
+  <text x="465" y="76" font-size="9.2" font-weight="bold" text-anchor="middle">frontend (Module 1 • :80)</text>
+  <text x="465" y="89" font-size="8.2" text-anchor="middle">HTML5 / CSS3 / JS on Nginx Alpine</text>
+  <text x="465" y="100" font-size="8" text-anchor="middle">Displays Live Build #${TAG}</text>
+
+  <!-- Items API Container -->
+  <rect x="386" y="136" width="158" height="60" fill="#ffffff" stroke="#000000" stroke-width="1.8"/>
+  <text x="465" y="152" font-size="9.2" font-weight="bold" text-anchor="middle">items-api (Module 2 • :5000)</text>
+  <text x="465" y="165" font-size="8.2" text-anchor="middle">Python 3.12 + Flask + Gunicorn</text>
+  <text x="465" y="177" font-size="8" text-anchor="middle">GET/POST/PATCH /api/items</text>
+  <text x="465" y="189" font-size="8" font-weight="bold" text-anchor="middle">Health: GET /api/items/health</text>
+
+  <!-- Claims API Container -->
+  <rect x="386" y="208" width="158" height="60" fill="#ffffff" stroke="#000000" stroke-width="1.8"/>
+  <text x="465" y="224" font-size="9.2" font-weight="bold" text-anchor="middle">claims-api (Module 3 • :5001)</text>
+  <text x="465" y="237" font-size="8.2" text-anchor="middle">Python 3.12 + Flask + Gunicorn</text>
+  <text x="465" y="249" font-size="8" text-anchor="middle">GET/POST/PATCH /api/claims</text>
+  <text x="465" y="261" font-size="8" font-weight="bold" text-anchor="middle">Health: GET /api/claims/health</text>
+
+  <!-- Proxy -> Modules Arrows -->
+  <polyline points="308,128 336,128 336,83 386,83" fill="none" stroke="#000000" stroke-width="1.6"/>
+  <polygon points="386,83 379,79 379,87" fill="#000000"/>
+  <text x="358" y="77" font-size="8" font-weight="bold" text-anchor="middle">GET /</text>
+
+  <line x1="308" y1="164" x2="386" y2="164" stroke="#000000" stroke-width="1.6"/>
+  <polygon points="386,164 379,160 379,168" fill="#000000"/>
+  <text x="345" y="158" font-size="8" font-weight="bold" text-anchor="middle">/api/items/</text>
+
+  <polyline points="308,180 336,180 336,238 386,238" fill="none" stroke="#000000" stroke-width="1.6"/>
+  <polygon points="386,238 379,234 379,242" fill="#000000"/>
+  <text x="336" y="252" font-size="8" font-weight="bold" text-anchor="middle">/api/claims/</text>
+
+  <!-- Database Container -->
+  <rect x="590" y="144" width="138" height="118" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+  <rect x="590" y="144" width="138" height="19" fill="#000000"/>
+  <text x="659" y="157" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">db (PostgreSQL :5432)</text>
+  <text x="659" y="175" font-size="9" font-weight="bold" text-anchor="middle">postgres:16-alpine</text>
+  <text x="659" y="188" font-size="8" text-anchor="middle">Schema: db/init.sql</text>
+  <text x="659" y="200" font-size="8" text-anchor="middle">Healthcheck: pg_isready</text>
+  <text x="659" y="212" font-size="8" font-weight="bold" text-anchor="middle">Not Exposed to Host</text>
+  <rect x="600" y="220" width="118" height="32" fill="#eeeeee" stroke="#000000" stroke-width="1.2"/>
+  <text x="659" y="233" font-size="8" font-weight="bold" text-anchor="middle">NAMED VOLUME</text>
+  <text x="659" y="245" font-size="8" text-anchor="middle">findit-db-data</text>
+
+  <!-- Arrows APIs -> DB -->
+  <line x1="544" y1="168" x2="590" y2="188" stroke="#000000" stroke-width="1.6"/>
+  <polygon points="590,188 582,182 584,190" fill="#000000"/>
+  <line x1="544" y1="236" x2="590" y2="212" stroke="#000000" stroke-width="1.6"/>
+  <polygon points="590,212 584,210 582,218" fill="#000000"/>
+
+  <!-- SECTION 2: CI/CD AUTOMATION -->
+  <rect x="6" y="314" width="748" height="144" fill="#ffffff" stroke="#000000" stroke-width="1.8"/>
+  <rect x="6" y="314" width="748" height="22" fill="#111111"/>
+  <text x="16" y="329" font-size="10" font-weight="bold" fill="#ffffff">B. SEPARATE CI/CD AUTOMATION STACK (infra/jenkins/docker-compose.yml • Port :8081)</text>
+
+  <!-- Developer -->
+  <rect x="18" y="352" width="106" height="60" fill="#ffffff" stroke="#000000" stroke-width="1.6"/>
+  <text x="71" y="374" font-size="9.2" font-weight="bold" text-anchor="middle">TEAM MEMBER</text>
+  <text x="71" y="388" font-size="8.2" text-anchor="middle">git commit &amp; push</text>
+  <text x="71" y="401" font-size="8" text-anchor="middle">(Feature PR / main)</text>
+
+  <!-- Arrow Dev -> GitHub -->
+  <line x1="124" y1="382" x2="158" y2="382" stroke="#000000" stroke-width="1.6"/>
+  <polygon points="158,382 151,378 151,386" fill="#000000"/>
+
+  <!-- GitHub -->
+  <rect x="158" y="352" width="118" height="60" fill="#ffffff" stroke="#000000" stroke-width="1.6"/>
+  <text x="217" y="374" font-size="9.2" font-weight="bold" text-anchor="middle">GITHUB REPO</text>
+  <text x="217" y="388" font-size="8.2" text-anchor="middle">Webhook (via ngrok)</text>
+  <text x="217" y="401" font-size="8" text-anchor="middle">or Poll SCM Fallback</text>
+
+  <!-- Arrow GitHub -> Jenkins -->
+  <line x1="276" y1="382" x2="314" y2="382" stroke="#000000" stroke-width="1.6"/>
+  <polygon points="314,382 307,378 307,386" fill="#000000"/>
+  <text x="295" y="375" font-size="7.5" font-weight="bold" text-anchor="middle">Auto</text>
+
+  <!-- Jenkins Container -->
+  <rect x="314" y="346" width="424" height="100" fill="#fafafa" stroke="#000000" stroke-width="2"/>
+  <text x="526" y="362" font-size="9.5" font-weight="bold" text-anchor="middle">JENKINS CONTAINER (:8081 • Volume: jenkins_home • Mounts /var/run/docker.sock)</text>
+
+  <!-- 5 Stages inside Jenkins -->
+  <rect x="324" y="370" width="72" height="44" fill="#ffffff" stroke="#000000" stroke-width="1.3"/>
+  <text x="360" y="386" font-size="8.2" font-weight="bold" text-anchor="middle">1. Checkout</text>
+  <text x="360" y="399" font-size="7.5" text-anchor="middle">checkout scm</text>
+
+  <rect x="406" y="370" width="76" height="44" fill="#ffffff" stroke="#000000" stroke-width="1.3"/>
+  <text x="444" y="386" font-size="8.2" font-weight="bold" text-anchor="middle">2. Test [GATE]</text>
+  <text x="444" y="399" font-size="7.5" text-anchor="middle">--target test</text>
+
+  <rect x="492" y="370" width="76" height="44" fill="#ffffff" stroke="#000000" stroke-width="1.3"/>
+  <text x="530" y="386" font-size="8.2" font-weight="bold" text-anchor="middle">3. Build</text>
+  <text x="530" y="399" font-size="7.5" text-anchor="middle">TAG=${BUILD_#}</text>
+
+  <rect x="578" y="370" width="72" height="44" fill="#ffffff" stroke="#000000" stroke-width="1.3"/>
+  <text x="614" y="386" font-size="8.2" font-weight="bold" text-anchor="middle">4. Deploy</text>
+  <text x="614" y="399" font-size="7.5" text-anchor="middle">compose up -d</text>
+
+  <rect x="660" y="370" width="68" height="44" fill="#ffffff" stroke="#000000" stroke-width="1.3"/>
+  <text x="694" y="386" font-size="8.2" font-weight="bold" text-anchor="middle">5. Smoke</text>
+  <text x="694" y="399" font-size="7.5" text-anchor="middle">GET /health</text>
+
+  <text x="526" y="432" font-size="8" text-anchor="middle">Credentials: Secret File (findit-env) copied to .env during Deploy &amp; removed in post { always { rm -f .env } }</text>
+</svg>
