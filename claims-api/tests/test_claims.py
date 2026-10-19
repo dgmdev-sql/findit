@@ -86,3 +86,14 @@ def test_reject_claim_keeps_item_open(client):
         status = connection.execute("SELECT status FROM items WHERE id = 1").fetchone()[0]
     assert status == "open"
 
+
+
+def test_list_claims_filters_and_update_errors(client):
+    assert client.post("/api/claims", json={}).status_code == 400
+    claim = submit(client).get_json()
+    response = client.get("/api/claims?item_id=1&status=pending")
+    assert response.status_code == 200
+    assert response.get_json()[0]["item_title"] == "Blue umbrella"
+    assert client.get("/api/claims?item_id=not-a-number").status_code == 400
+    assert client.patch(f"/api/claims/{claim['id']}", json={"status": "pending"}).status_code == 400
+    assert client.patch("/api/claims/999", json={"status": "approved"}).status_code == 404

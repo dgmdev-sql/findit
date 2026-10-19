@@ -64,3 +64,11 @@ def test_update_item_status(client):
     assert response.get_json()["status"] == "returned"
 
 
+
+
+def test_item_lookup_and_status_errors(client):
+    assert client.get("/api/items/999").status_code == 404
+    assert client.patch("/api/items/999/status", json={"status": "returned"}).status_code == 404
+    item_id = client.post("/api/items", json=item_data()).get_json()["id"]
+    assert client.patch(f"/api/items/{item_id}/status", json={"status": "invalid"}).status_code == 400
+    assert client.post("/api/items", json=item_data(date_reported="not-a-date")).status_code == 400
