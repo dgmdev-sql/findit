@@ -10,7 +10,7 @@ const DEFAULT_SEED_ITEMS = [
     title: "Black HydroFlask 32oz",
     category: "Bottles / Bags",
     item_type: "found",
-    location: "Library 5th Floor",
+    location: "Main Library, 3rd Floor",
     date_reported: "2026-10-19",
     description:
       "Matte black insulated flask with a protective rubber boot and an NU Bulldogs sticker near the base.",
