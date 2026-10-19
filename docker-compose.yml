@@ -1,0 +1,93 @@
+services:
+  db:
+    build:
+      context: ./db
+    image: findit/db:${TAG:-latest}
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-findit}
+      POSTGRES_USER: ${POSTGRES_USER:-findit_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me_in_production}
+    volumes:
+      - findit-db-data:/var/lib/postgresql/data
+    networks:
+      - backend-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-findit_user} -d $${POSTGRES_DB:-findit}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  items-api:
+    build:
+      context: ./items-api
+      target: production
+    image: findit/items-api:${TAG:-latest}
+    restart: unless-stopped
+    environment:
+      DB_HOST: ${DB_HOST:-db}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-findit}
+      DB_USER: ${DB_USER:-findit_user}
+      DB_PASSWORD: ${DB_PASSWORD:-change_me_in_production}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - frontend-net
+      - backend-net
+
+  claims-api:
+    build:
+      context: ./claims-api
+      target: production
+    image: findit/claims-api:${TAG:-latest}
+    restart: unless-stopped
+    environment:
+      DB_HOST: ${DB_HOST:-db}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-findit}
+      DB_USER: ${DB_USER:-findit_user}
+      DB_PASSWORD: ${DB_PASSWORD:-change_me_in_production}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - frontend-net
+      - backend-net
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        BUILD_NUMBER: ${TAG:-dev}
+    image: findit/frontend:${TAG:-latest}
+    restart: unless-stopped
+    networks:
+      - frontend-net
+
+  proxy:
+    build:
+      context: ./proxy
+    image: findit/proxy:${TAG:-latest}
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      frontend:
+        condition: service_healthy
+      items-api:
+        condition: service_healthy
+      claims-api:
+        condition: service_healthy
+    networks:
+      - frontend-net
+
+networks:
+  frontend-net:
+    driver: bridge
+  backend-net:
+    driver: bridge
+
+volumes:
+  findit-db-data:
