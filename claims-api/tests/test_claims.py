@@ -60,6 +60,7 @@ def test_submit_claim_success(client):
     assert response.status_code == 201
     assert response.get_json()["status"] == "pending"
     assert response.get_json()["item_title"] == "Blue umbrella"
+    assert "T" in response.get_json()["created_at"]
 
 
 def test_submit_claim_for_missing_or_returned_item(client):

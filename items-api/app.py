@@ -60,7 +60,7 @@ def create_app(test_config=None):
             if isinstance(value, (date, datetime)):
                 result[key] = value.isoformat()
             elif value is not None:
-                result[key] = str(value)
+                result[key] = value.replace(" ", "T", 1) if key == "created_at" else str(value)
         return result
 
     @app.get("/api/items/health")

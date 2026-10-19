@@ -69,7 +69,7 @@ def create_app(test_config=None):
         if isinstance(value, (date, datetime)):
             result["created_at"] = value.isoformat()
         elif value is not None:
-            result["created_at"] = str(value)
+            result["created_at"] = str(value).replace(" ", "T", 1)
         return result
 
     @app.get("/api/claims/health")

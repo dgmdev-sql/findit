@@ -37,6 +37,7 @@ def test_create_and_list_items(client):
     created = client.post("/api/items", json=item_data())
     assert created.status_code == 201
     assert created.get_json()["date_reported"]
+    assert "T" in created.get_json()["created_at"]
     listed = client.get("/api/items")
     assert listed.status_code == 200
     assert listed.get_json()[0]["title"] == "Blue umbrella"
