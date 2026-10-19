@@ -50,15 +50,21 @@ def test_create_item_validation_error(client):
 
 def test_filter_items_by_type_and_query(client):
     client.post("/api/items", json=item_data())
-    client.post("/api/items", json=item_data(title="Red notebook", item_type="found", description="Spiral notebook with grid paper"))
+    found = client.post("/api/items", json=item_data(title="Red notebook", item_type="found", category="Books / Notes", description="Spiral notebook with grid paper")).get_json()
+    client.patch(f"/api/items/{found['id']}/status", json={"status": "returned"})
     lost = client.get("/api/items?type=lost").get_json()
     searched = client.get("/api/items?q=WOODEN").get_json()
+    category = client.get("/api/items", query_string={"category": "Books / Notes"}).get_json()
+    returned = client.get("/api/items?status=returned").get_json()
     assert len(lost) == 1 and lost[0]["title"] == "Blue umbrella"
     assert len(searched) == 1 and searched[0]["title"] == "Blue umbrella"
+    assert len(category) == 1 and category[0]["title"] == "Red notebook"
+    assert len(returned) == 1 and returned[0]["title"] == "Red notebook"
 
 
 def test_update_item_status(client):
     item_id = client.post("/api/items", json=item_data()).get_json()["id"]
+    assert client.get(f"/api/items/{item_id}").status_code == 200
     response = client.patch(f"/api/items/{item_id}/status", json={"status": "returned"})
     assert response.status_code == 200
     assert response.get_json()["status"] == "returned"
