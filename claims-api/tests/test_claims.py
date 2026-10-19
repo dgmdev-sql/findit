@@ -103,3 +103,12 @@ def test_testing_config_can_be_enabled_after_app_creation():
     app = create_app({"TESTING": False})
     app.config["TESTING"] = True
     assert app.test_client().get("/api/claims").status_code == 200
+
+
+def test_test_db_path_environment_variable_is_used(monkeypatch, tmp_path):
+    db_path = tmp_path / "configured.sqlite3"
+    monkeypatch.setenv("TESTING", "true")
+    monkeypatch.setenv("TEST_DB_PATH", str(db_path))
+    app = create_app()
+    assert app.config["TEST_DB_PATH"] == str(db_path)
+    assert app.test_client().get("/api/claims").status_code == 200

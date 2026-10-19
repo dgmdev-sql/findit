@@ -11,7 +11,7 @@ from flask import Flask, current_app, jsonify, request
 
 def create_app(test_config=None):
     app = Flask(__name__)
-    app.config.update(TESTING=os.getenv("TESTING", "false").lower() == "true")
+    app.config.update(TESTING=os.getenv("TESTING", "false").lower() == "true", TEST_DB_PATH=os.getenv("TEST_DB_PATH"))
     if test_config:
         app.config.update(test_config)
     if app.config["TESTING"] and not app.config.get("TEST_DB_PATH"):
