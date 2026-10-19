@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FindIt — ITSO Admin Console" />
+  <title>FindIt — ITSO Admin Console</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600;700&family=Space+Grotesk:wght@600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-portal="admin">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <section id="admin-auth-gate" class="auth-gate" aria-labelledby="auth-gate-title">
+    <div class="auth-card">
+      <div class="auth-card__header">
+        <div class="brand-logo">
+          <span class="brand-logo__mark" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </span>
+          <span class="brand-logo__name">findit.</span>
+          <span class="admin-role-chip">ITSO STAFF</span>
+        </div>
+        <h1 id="auth-gate-title" class="auth-card__title">Staff Verification Console</h1>
+        <p class="auth-card__desc">
+          Restricted portal for ITSO &amp; Campus Security personnel to verify ownership claims and manage item handovers.
+        </p>
+      </div>
+
+      <form id="admin-login-form" class="modal-form" novalidate>
+        <div class="form-field">
+          <label for="admin-staff-id" class="form-label">Staff ID / Email</label>
+          <input
+            type="text"
+            id="admin-staff-id"
+            class="form-input form-input--mono"
+            value="itso-desk@campus.edu.ph"
+            required
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="admin-passcode" class="form-label">Security Passcode</label>
+          <input
+            type="password"
+            id="admin-passcode"
+            class="form-input form-input--mono"
+            value="itso2026"
+            required
+          />
+        </div>
+
+        <p id="admin-login-error" class="form-error is-hidden" role="alert"></p>
+
+        <button type="submit" class="btn btn--primary" style="width: 100%; margin-top: 0.25rem;">
+          Sign In to ITSO Console
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <div id="admin-console-shell" class="admin-shell is-hidden">
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <div class="brand-group">
+          <a href="admin.html" class="brand-logo" aria-label="ITSO Console Home">
+            <span class="brand-logo__mark" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </span>
+            <span class="brand-logo__name">findit.</span>
+          </a>
+          <span class="admin-role-chip">ITSO ADMIN</span>
+
+          <div id="api-status-badge" class="status-pill" aria-live="polite">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span id="api-status-label">Syncing</span>
+          </div>
+        </div>
+
+        <nav class="nav-switcher" aria-label="ITSO Admin views">
+          <button
+            type="button"
+            id="tab-claims-btn"
+            class="nav-switcher__btn is-active"
+            aria-selected="true"
+            data-view="claims"
+          >
+            <span>Claims Queue</span>
+            <span id="pending-claims-count" class="nav-switcher__count nav-switcher__count--alert">0</span>
+          </button>
+
+          <button
+            type="button"
+            id="tab-board-btn"
+            class="nav-switcher__btn"
+            aria-selected="false"
+            data-view="board"
+          >
+            <span>Item Manager</span>
+            <span id="stat-total" class="nav-switcher__count">0</span>
+          </button>
+        </nav>
+
+        <div class="header-actions">
+          <button
+            type="button"
+            id="refresh-data-btn"
+            class="btn btn--icon"
+            aria-label="Sync data"
+            title="Sync data"
+          >
+            <svg class="icon icon--spin-target" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <polyline points="1 20 1 14 7 14"></polyline>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+          </button>
+
+          <button type="button" id="admin-logout-btn" class="btn btn--ghost btn--sm">
+            Sign Out
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content" class="main-content container">
+      <section id="view-claims" class="view-section" aria-label="Claims verification queue">
+        <div class="page-intro">
+          <h1 class="page-intro__title">Claims Verification Queue</h1>
+          <p class="page-intro__subtitle">
+            Review student proof of ownership. Approving a claim automatically marks the item as <strong>Returned</strong>.
+          </p>
+        </div>
+
+        <div class="filter-bar">
+          <div class="filter-pills" role="group" aria-label="Filter claims by status">
+            <button type="button" class="claim-filter-pill is-active" data-claim-filter="all">All Claims</button>
+            <button type="button" class="claim-filter-pill claim-filter-pill--pending" data-claim-filter="pending">
+              <span class="status-dot-sm status-dot-sm--found" aria-hidden="true"></span>
+              <span>Pending</span>
+            </button>
+            <button type="button" class="claim-filter-pill claim-filter-pill--approved" data-claim-filter="approved">
+              <span class="status-dot-sm status-dot-sm--returned" aria-hidden="true"></span>
+              <span>Approved</span>
+            </button>
+            <button type="button" class="claim-filter-pill claim-filter-pill--rejected" data-claim-filter="rejected">
+              <span class="status-dot-sm status-dot-sm--lost" aria-hidden="true"></span>
+              <span>Rejected</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="claims-list" class="claims-list" aria-live="polite"></div>
+      </section>
+
+      <section id="view-board" class="view-section is-hidden" aria-label="Item registry manager">
+        <div class="page-intro">
+          <h1 class="page-intro__title">Item Registry Manager</h1>
+          <p class="page-intro__subtitle">
+            Inspect reporter contact emails or directly update item handover status at the ITSO desk.
+          </p>
+        </div>
+
+        <div class="filter-bar">
+          <div class="filter-pills" role="group" aria-label="Filter items by status">
+            <button type="button" class="filter-pill is-active" data-filter="all">
+              <span>All</span>
+              <span id="pill-count-all" class="filter-pill__count">0</span>
+            </button>
+            <button type="button" class="filter-pill filter-pill--lost" data-filter="lost">
+              <span class="status-dot-sm status-dot-sm--lost" aria-hidden="true"></span>
+              <span>Lost</span>
+              <span id="stat-lost" class="filter-pill__count">0</span>
+            </button>
+            <button type="button" class="filter-pill filter-pill--found" data-filter="found">
+              <span class="status-dot-sm status-dot-sm--found" aria-hidden="true"></span>
+              <span>Found</span>
+              <span id="stat-found" class="filter-pill__count">0</span>
+            </button>
+            <button type="button" class="filter-pill filter-pill--returned" data-filter="returned">
+              <span class="status-dot-sm status-dot-sm--returned" aria-hidden="true"></span>
+              <span>Returned</span>
+              <span id="stat-returned" class="filter-pill__count">0</span>
+            </button>
+          </div>
+
+          <div class="filter-controls">
+            <div class="search-box">
+              <svg class="search-box__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input
+                type="search"
+                id="search-input"
+                class="search-box__input"
+                placeholder="Search item, location, or reporter..."
+                aria-label="Search items"
+              />
+            </div>
+
+            <select id="category-filter" class="select-box" aria-label="Filter by category">
+              <option value="all">All Categories</option>
+              <option value="Electronics">Electronics</option>
+              <option value="ID / Cards">ID / Cards</option>
+              <option value="Bottles / Bags">Bottles / Bags</option>
+              <option value="Books / Notes">Books / Notes</option>
+              <option value="Keys / Accessories">Keys / Accessories</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="admin-items-list" class="claims-list" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container site-footer__inner">
+        <div class="site-footer__left">
+          <span class="footer-brand">findit.</span>
+          <span class="footer-sep" aria-hidden="true">&middot;</span>
+          <span class="footer-meta">ITSO Staff Verification Console</span>
+        </div>
+
+        <div class="site-footer__right">
+          <button
+            type="button"
+            id="reset-demo-btn"
+            class="footer-link is-hidden"
+            title="Restore default sample items"
+          >
+            Reset Sample Data
+          </button>
+          <div class="build-badge" aria-label="Deployed build version">
+            <span id="build-number-label" class="build-badge__value">Build #__BUILD_NUMBER__</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
