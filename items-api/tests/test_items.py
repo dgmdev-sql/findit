@@ -78,3 +78,9 @@ def test_item_lookup_and_status_errors(client):
     item_id = client.post("/api/items", json=item_data()).get_json()["id"]
     assert client.patch(f"/api/items/{item_id}/status", json={"status": "invalid"}).status_code == 400
     assert client.post("/api/items", json=item_data(date_reported="not-a-date")).status_code == 400
+
+
+def test_testing_config_can_be_enabled_after_app_creation():
+    app = create_app({"TESTING": False})
+    app.config["TESTING"] = True
+    assert app.test_client().get("/api/items").status_code == 200

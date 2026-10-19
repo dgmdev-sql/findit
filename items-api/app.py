@@ -21,7 +21,12 @@ def create_app(test_config=None):
 
     def connect_db():
         if current_app.config.get("TESTING") or os.getenv("TESTING", "false").lower() == "true":
-            connection = sqlite3.connect(current_app.config["TEST_DB_PATH"])
+            db_path = current_app.config.get("TEST_DB_PATH")
+            if not db_path:
+                fd, db_path = tempfile.mkstemp(prefix="findit-items-", suffix=".sqlite3")
+                os.close(fd)
+                current_app.config["TEST_DB_PATH"] = db_path
+            connection = sqlite3.connect(db_path)
             connection.row_factory = sqlite3.Row
             connection.executescript("""
                 CREATE TABLE IF NOT EXISTS items (

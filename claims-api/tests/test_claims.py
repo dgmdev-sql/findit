@@ -97,3 +97,9 @@ def test_list_claims_filters_and_update_errors(client):
     assert client.get("/api/claims?item_id=not-a-number").status_code == 400
     assert client.patch(f"/api/claims/{claim['id']}", json={"status": "pending"}).status_code == 400
     assert client.patch("/api/claims/999", json={"status": "approved"}).status_code == 404
+
+
+def test_testing_config_can_be_enabled_after_app_creation():
+    app = create_app({"TESTING": False})
+    app.config["TESTING"] = True
+    assert app.test_client().get("/api/claims").status_code == 200
