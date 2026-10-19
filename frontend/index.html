@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FindIt — Campus Lost and Found" />
+  <title>FindIt — Campus Lost &amp; Found</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600;700&family=Space+Grotesk:wght@600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-portal="student">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <div class="brand-group">
+        <a href="index.html" id="brand-home-link" class="brand-logo" aria-label="FindIt Home">
+          <span class="brand-logo__mark" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+          </span>
+          <span class="brand-logo__name">findit.</span>
+        </a>
+
+        <div id="api-status-badge" class="status-pill" aria-live="polite" title="Service status">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span id="api-status-label">Syncing</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button
+          type="button"
+          id="refresh-data-btn"
+          class="btn btn--icon"
+          aria-label="Sync items"
+          title="Refresh items"
+        >
+          <svg class="icon icon--spin-target" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
+        </button>
+
+        <button
+          type="button"
+          id="open-report-modal-btn"
+          class="btn btn--primary"
+          aria-haspopup="dialog"
+        >
+          <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span>Report Item</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="main-content container">
+    <div class="page-intro">
+      <h1 id="page-heading" class="page-intro__title">Campus Lost &amp; Found</h1>
+      <p id="campus-banner-text" class="page-intro__subtitle">
+        Browse reported campus items below. Click any card to view details or submit an ownership claim.
+      </p>
+    </div>
+
+    <div class="filter-bar">
+      <div class="filter-pills" role="group" aria-label="Filter items by status">
+        <button type="button" class="filter-pill is-active" data-filter="all">
+          <span>All</span>
+          <span id="pill-count-all" class="filter-pill__count">0</span>
+        </button>
+        <button type="button" class="filter-pill filter-pill--lost" data-filter="lost">
+          <span class="status-dot-sm status-dot-sm--lost" aria-hidden="true"></span>
+          <span>Lost</span>
+          <span id="stat-lost" class="filter-pill__count">0</span>
+        </button>
+        <button type="button" class="filter-pill filter-pill--found" data-filter="found">
+          <span class="status-dot-sm status-dot-sm--found" aria-hidden="true"></span>
+          <span>Found</span>
+          <span id="stat-found" class="filter-pill__count">0</span>
+        </button>
+        <button type="button" class="filter-pill filter-pill--returned" data-filter="returned">
+          <span class="status-dot-sm status-dot-sm--returned" aria-hidden="true"></span>
+          <span>Returned</span>
+          <span id="stat-returned" class="filter-pill__count">0</span>
+        </button>
+      </div>
+
+      <div class="filter-controls">
+        <div class="search-box">
+          <svg class="search-box__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            type="search"
+            id="search-input"
+            class="search-box__input"
+            placeholder="Search items or location..."
+            aria-label="Search items"
+          />
+        </div>
+
+        <select id="category-filter" class="select-box" aria-label="Filter by category">
+          <option value="all">All Categories</option>
+          <option value="Electronics">Electronics</option>
+          <option value="ID / Cards">ID / Cards</option>
+          <option value="Bottles / Bags">Bottles / Bags</option>
+          <option value="Books / Notes">Books / Notes</option>
+          <option value="Keys / Accessories">Keys / Accessories</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="items-grid" class="items-grid" aria-live="polite"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div class="site-footer__left">
+        <span class="footer-brand">findit.</span>
+        <span class="footer-sep" aria-hidden="true">&middot;</span>
+        <span class="footer-meta">Campus Lost &amp; Found Registry</span>
+      </div>
+
+      <div class="site-footer__right">
+        <button
+          type="button"
+          id="reset-demo-btn"
+          class="footer-link is-hidden"
+          title="Restore default sample items"
+        >
+          Reset Sample Data
+        </button>
+        <div class="build-badge" aria-label="Deployed build version">
+          <span id="build-number-label" class="build-badge__value">Build #__BUILD_NUMBER__</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Report Item Modal -->
+  <div
+    id="report-modal"
+    class="modal-backdrop is-hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="report-modal-title"
+  >
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div>
+          <span class="modal-kicker">NEW ENTRY</span>
+          <h2 id="report-modal-title" class="modal-title">Report an Item</h2>
+        </div>
+        <button type="button" class="modal-close-btn" data-close-modal="report-modal" aria-label="Close modal">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <form id="report-item-form" class="modal-form" novalidate>
+        <div class="form-field">
+          <span class="form-label">Status Type</span>
+          <div class="segmented-control" role="radiogroup" aria-label="Report type">
+            <label class="segmented-option">
+              <input type="radio" name="item_type" value="lost" checked />
+              <span class="segmented-option__box segmented-option__box--lost">
+                <span class="status-dot-sm status-dot-sm--lost" aria-hidden="true"></span>
+                Lost Item
+              </span>
+            </label>
+            <label class="segmented-option">
+              <input type="radio" name="item_type" value="found" />
+              <span class="segmented-option__box segmented-option__box--found">
+                <span class="status-dot-sm status-dot-sm--found" aria-hidden="true"></span>
+                Found Item
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-row form-row--2col">
+          <div class="form-field">
+            <label for="report-title" class="form-label">Item Name</label>
+            <input
+              type="text"
+              id="report-title"
+              name="title"
+              class="form-input"
+              placeholder="e.g., Black HydroFlask 32oz"
+              maxlength="120"
+              required
+            />
+          </div>
+
+          <div class="form-field">
+            <label for="report-category" class="form-label">Category</label>
+            <select id="report-category" name="category" class="form-input" required>
+              <option value="Electronics">Electronics</option>
+              <option value="ID / Cards">ID / Cards</option>
+              <option value="Bottles / Bags">Bottles / Bags</option>
+              <option value="Books / Notes">Books / Notes</option>
+              <option value="Keys / Accessories">Keys / Accessories</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row form-row--2col">
+          <div class="form-field">
+            <label for="report-location" class="form-label">Location</label>
+            <input
+              type="text"
+              id="report-location"
+              name="location"
+              class="form-input"
+              placeholder="e.g., Library 5th Floor"
+              maxlength="120"
+              required
+            />
+          </div>
+
+          <div class="form-field">
+            <label for="report-date" class="form-label">Date</label>
+            <input
+              type="date"
+              id="report-date"
+              name="date_reported"
+              class="form-input"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="report-description" class="form-label">Description &amp; Identifying Details</label>
+          <textarea
+            id="report-description"
+            name="description"
+            class="form-input"
+            rows="3"
+            placeholder="Color, brand, stickers, or distinguishing marks..."
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-row form-row--2col">
+          <div class="form-field">
+            <label for="reporter-name" class="form-label">Your Name</label>
+            <input
+              type="text"
+              id="reporter-name"
+              name="reporter_name"
+              class="form-input"
+              placeholder="e.g., Dom Marasigan"
+              maxlength="100"
+              required
+            />
+          </div>
+
+          <div class="form-field">
+            <label for="reporter-contact" class="form-label">Campus Email</label>
+            <input
+              type="email"
+              id="reporter-contact"
+              name="reporter_contact"
+              class="form-input"
+              placeholder="you@students.edu.ph"
+              maxlength="100"
+              required
+            />
+          </div>
+        </div>
+
+        <p id="report-form-error" class="form-error is-hidden" role="alert"></p>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn--ghost" data-close-modal="report-modal">Cancel</button>
+          <button type="submit" id="report-submit-btn" class="btn btn--primary">Publish Report</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Item Detail & Claim Modal -->
+  <div
+    id="claim-modal"
+    class="modal-backdrop is-hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="claim-modal-title"
+  >
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div>
+          <span id="detail-modal-kicker" class="modal-kicker">ITEM DETAILS</span>
+          <h2 id="claim-modal-title" class="modal-title">Inspect Item</h2>
+        </div>
+        <button type="button" class="modal-close-btn" data-close-modal="claim-modal" aria-label="Close modal">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div id="claim-target-summary" class="item-detail-sheet"></div>
+
+      <form id="submit-claim-form" class="modal-form" novalidate>
+        <input type="hidden" id="claim-item-id" name="item_id" />
+
+        <div class="claim-form-divider">
+          <span>Submit Ownership Claim</span>
+        </div>
+
+        <div class="form-row form-row--2col">
+          <div class="form-field">
+            <label for="claimant-name" class="form-label">Full Name</label>
+            <input
+              type="text"
+              id="claimant-name"
+              name="claimant_name"
+              class="form-input"
+              placeholder="e.g., Rey Santos"
+              maxlength="100"
+              required
+            />
+          </div>
+
+          <div class="form-field">
+            <label for="claimant-student-id" class="form-label">Student ID</label>
+            <input
+              type="text"
+              id="claimant-student-id"
+              name="student_id"
+              class="form-input form-input--mono"
+              placeholder="e.g., 2024-10492"
+              maxlength="40"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="claim-proof" class="form-label">Proof of Ownership</label>
+          <textarea
+            id="claim-proof"
+            name="proof_description"
+            class="form-input"
+            rows="2"
+            placeholder="Describe a unique mark, serial number, or lockscreen..."
+            required
+          ></textarea>
+        </div>
+
+        <p id="claim-form-error" class="form-error is-hidden" role="alert"></p>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn--ghost" data-close-modal="claim-modal">Close</button>
+          <button type="submit" id="claim-submit-btn" class="btn btn--primary">Submit Claim</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
