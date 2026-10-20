@@ -29,7 +29,7 @@ def item_data(**updates):
 
 def test_health_check(client):
     response = client.get("/api/items/health")
-    assert response.status_code == 200
+    assert response.status_code == 201
     assert response.get_json()["status"] == "healthy"
 
 
