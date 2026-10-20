@@ -1,6 +1,7 @@
 # FindIt — Campus Lost & Found Management System
 
 > **System Architecture and Integration (SYSIN) Final Project**  
+> **Course & Section:** ITE-305 | **Academic Year 2026**  
 > **Containerized Infrastructure and CI/CD Automation using Docker and Jenkins**
 
 **FindIt** is a containerized multi-module web application designed for campus communities to report lost belongings, post found items, search and filter active listings, and submit or review item recovery claims. Once a claim is approved by staff, the corresponding item's status is automatically updated to `returned`.
@@ -28,11 +29,11 @@
 
 | Member | Primary Role | Key Deliverables & Owned Paths |
 | :--- | :--- | :--- |
-| **Josh** | Project Lead / Scrum Master | Project Proposal (`Appendix A`), `docs/architecture.png`, Presentation Slides, Git coordination |
-| **Dom** | Frontend & Docker Infrastructure Lead | `frontend/` (`index.html`, `admin.html`, `css/`, `js/`), `docker-compose.yml`, multi-stage `Dockerfile`s, `proxy/` |
-| **Rey** | Backend & Database Engineer | `db/init.sql`, `items-api/` (`app.py`, `tests/`), `claims-api/` (`app.py`, `tests/`) |
-| **Kennedy** | DevOps / CI-CD Engineer | Root `Jenkinsfile`, `infra/jenkins/Dockerfile`, `infra/jenkins/docker-compose.yml`, rollback procedures |
-| **Kim** | QA Automation & Technical Documentation Lead | `scripts/smoke-test.sh`, `docs/TECHNICAL_DOCUMENTATION.md`, smoke test verification runbook |
+| **Joshua Andrei Lunca** | Project Lead / Scrum Master | Project Proposal (`Appendix A`), `docs/architecture.png`, Presentation Slides, Git coordination |
+| **Dominic Marasigan** | Frontend & Docker Infrastructure Lead | `frontend/` (`index.html`, `admin.html`, `css/`, `js/`), `docker-compose.yml`, multi-stage `Dockerfile`s, `proxy/` |
+| **Rey Fritz Eisen Tan** | Backend & Database Engineer | `db/init.sql`, `items-api/` (`app.py`, `tests/`), `claims-api/` (`app.py`, `tests/`) |
+| **Charles Kennedy Lawingco** | DevOps / CI-CD Engineer | Root `Jenkinsfile`, `infra/jenkins/Dockerfile`, `infra/jenkins/docker-compose.yml`, rollback procedures |
+| **Kim Carlo Abarientos** | QA Automation & Technical Documentation Lead | `scripts/smoke-test.sh`, `docs/TECHNICAL_DOCUMENTATION.md`, smoke test verification runbook |
 
 ---
 

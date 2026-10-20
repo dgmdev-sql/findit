@@ -2,8 +2,8 @@
 
 > **System Architecture and Integration (SYSIN) • Final Course Project**  
 > **Containerized Infrastructure and CI/CD Automation using Docker and Jenkins**  
-> **Course Section:** SYSIN-2026 | **Date:** October 2026  
-> **Team FindIt:** Dominic Marasigan, Rey Fritz Tan, Charles Kennedy Lawingco, Kim, Joshua  
+> **Course Section:** ITE-305 | **Date:** October 2026  
+> **Team FindIt:** Dominic Marasigan, Rey Fritz Eisen Tan, Charles Kennedy Lawingco, Kim Carlo Abarientos, Joshua Andrei Lunca  
 
 ---
 
@@ -208,7 +208,7 @@ The script exercises:
 | Team Member | Role | Owned Modules & Contributions |
 | :--- | :--- | :--- |
 | **Dominic Marasigan** | Frontend & Docker Infrastructure Lead | Developed `frontend/` UI and ITSO Admin Console, multi-stage `Dockerfile`s, `docker-compose.yml`, network isolation, and initial system architecture. |
-| **Rey Fritz Tan** | Backend & Database Engineer | Authored `db/init.sql` schema and seed data, `items-api/` and `claims-api/` Flask microservices, and 18 `pytest` unit test fixtures. |
+| **Rey Fritz Eisen Tan** | Backend & Database Engineer | Authored `db/init.sql` schema and seed data, `items-api/` and `claims-api/` Flask microservices, and 18 `pytest` unit test fixtures. |
 | **Charles Kennedy Lawingco** | DevOps & CI/CD Engineer | Implemented `infra/jenkins/Dockerfile` (with Docker CLI and buildx plugins), `infra/jenkins/docker-compose.yml`, and root `Jenkinsfile` 5-stage pipeline. |
-| **Kim** | QA Automation & Documentation Lead | Authored `scripts/smoke-test.sh` automated test suite, technical documentation, runbook specifications, and validation checklists. |
-| **Joshua** | Project Lead & Scrum Master | Created Phase 1 project proposal (`Appendix A`), system architecture diagram, presentation slides, and Git coordination. |
+| **Kim Carlo Abarientos** | QA Automation & Documentation Lead | Authored `scripts/smoke-test.sh` automated test suite, technical documentation, runbook specifications, and validation checklists. |
+| **Joshua Andrei Lunca** | Project Lead & Scrum Master | Created Phase 1 project proposal (`Appendix A`), system architecture diagram, presentation slides, and Git coordination. |
