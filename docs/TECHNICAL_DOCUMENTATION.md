@@ -220,7 +220,7 @@ The table below provides the detailed accountability breakdown of specific code 
 | **Rey Fritz Eisen Tan** | `db/init.sql`, `items-api/app.py`, `items-api/tests/`, `claims-api/app.py`, `claims-api/tests/`, `db/Dockerfile` | Engineered PostgreSQL schema and seed fixtures, built Flask REST microservices, authored dual SQLite/Postgres DB driver, created 18 unit tests. | 20% |
 | **Charles Kennedy Lawingco** | `infra/jenkins/Dockerfile`, `infra/jenkins/docker-compose.yml`, root `Jenkinsfile` | Implemented custom Jenkins Dockerfile with Docker CLI and Compose plugins, scripted 5-stage declarative pipeline, SCM polling, and rollback mechanism. | 20% |
 | **Kim Carlo Abarientos** | `scripts/smoke-test.sh`, `docs/TECHNICAL_DOCUMENTATION.md`, validation runbooks | Created automated 9-step HTTP health smoke test suite, authored comprehensive technical documentation report, designed QA runbook verification. | 20% |
-| **Joshua Andrei Lunca** | `docs/FindIt_Phase1_Project_Proposal_AppendixA.pdf`, `docs/architecture.png`, `docs/architecture.svg`, presentation structure | Authored Phase 1 project proposal, designed system architecture diagrams, coordinated task milestones and Git branch merge management. | 20% |
+| **Joshua Andrei Lunca** | Phase 1 Proposal Document, `docs/architecture.png`, `docs/architecture.svg`, presentation slides | Authored Phase 1 project proposal, designed system architecture diagrams, coordinated task milestones and Git branch merge management. | 20% |
 
 ### References
 1. Docker Documentation: *Multi-stage builds, Dockerfile best practices, and compose specifications* (`https://docs.docker.com/`).

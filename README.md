@@ -29,7 +29,7 @@
 
 | Member | Primary Role | Key Deliverables & Owned Paths |
 | :--- | :--- | :--- |
-| **Joshua Andrei Lunca** | Project Lead / Scrum Master | Project Proposal (`Appendix A`), `docs/architecture.png`, Presentation Slides, Git coordination |
+| **Joshua Andrei Lunca** | Project Lead / Scrum Master | Phase 1 Project Proposal, `docs/architecture.png`, Presentation Slides, Git coordination |
 | **Dominic Marasigan** | Frontend & Docker Infrastructure Lead | `frontend/` (`index.html`, `admin.html`, `css/`, `js/`), `docker-compose.yml`, multi-stage `Dockerfile`s, `proxy/` |
 | **Rey Fritz Eisen Tan** | Backend & Database Engineer | `db/init.sql`, `items-api/` (`app.py`, `tests/`), `claims-api/` (`app.py`, `tests/`) |
 | **Charles Kennedy Lawingco** | DevOps / CI-CD Engineer | Root `Jenkinsfile`, `infra/jenkins/Dockerfile`, `infra/jenkins/docker-compose.yml`, rollback procedures |
@@ -49,7 +49,6 @@ findit/
 ├── docs/
 │   ├── architecture.png         # System architecture diagram
 │   ├── architecture.svg         # Vector architecture diagram
-│   ├── PHASE1_SPECIFICATION.md  # Database schema & REST API contract
 │   └── TECHNICAL_DOCUMENTATION.md # Comprehensive system documentation & runbook
 ├── scripts/
 │   └── smoke-test.sh            # Automated post-deployment smoke test script
