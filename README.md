@@ -28,11 +28,11 @@
 
 | Member | Primary Role | Key Deliverables & Owned Paths |
 | :--- | :--- | :--- |
-| **Josh** | Project Lead / Scrum Master | Project Proposal (`Appendix A`), `docs/architecture.png`, `.gitignore`, PR reviews, presentation flow |
-| **Dom** | Frontend, QA & Documentation Lead | `frontend/` (`index.html`, `admin.html`, `css/`, `js/`), smoke test checks, `README.md`, Technical Documentation PDF, Slides |
+| **Josh** | Project Lead / Scrum Master | Project Proposal (`Appendix A`), `docs/architecture.png`, Presentation Slides, Git coordination |
+| **Dom** | Frontend & Docker Infrastructure Lead | `frontend/` (`index.html`, `admin.html`, `css/`, `js/`), `docker-compose.yml`, multi-stage `Dockerfile`s, `proxy/` |
 | **Rey** | Backend & Database Engineer | `db/init.sql`, `items-api/` (`app.py`, `tests/`), `claims-api/` (`app.py`, `tests/`) |
-| **Kennedy** | Infrastructure & Docker Engineer | `docker-compose.yml`, `.env.example`, `proxy/`, multi-stage `Dockerfile`s, `.dockerignore` files |
-| **Kim** | DevOps / CI-CD Engineer | Root `Jenkinsfile`, `infra/jenkins/`, Jenkins Credentials (`findit-env`), Webhook / Poll SCM trigger, rollback |
+| **Kennedy** | DevOps / CI-CD Engineer | Root `Jenkinsfile`, `infra/jenkins/Dockerfile`, `infra/jenkins/docker-compose.yml`, rollback procedures |
+| **Kim** | QA Automation & Technical Documentation Lead | `scripts/smoke-test.sh`, `docs/TECHNICAL_DOCUMENTATION.md`, smoke test verification runbook |
 
 ---
 
@@ -48,7 +48,10 @@ findit/
 ├── docs/
 │   ├── architecture.png         # System architecture diagram
 │   ├── architecture.svg         # Vector architecture diagram
-│   └── PHASE1_SPECIFICATION.md  # Database schema & REST API contract
+│   ├── PHASE1_SPECIFICATION.md  # Database schema & REST API contract
+│   └── TECHNICAL_DOCUMENTATION.md # Comprehensive system documentation & runbook
+├── scripts/
+│   └── smoke-test.sh            # Automated post-deployment smoke test script
 ├── proxy/
 │   ├── Dockerfile               # Bakes nginx.conf into nginx:1.27-alpine
 │   └── nginx.conf               # Reverse proxy routing rules
